@@ -37,7 +37,7 @@ resource "kubernetes_deployment" "search-ui" {
           name = "ghcr-secret"
         }
         container {
-          image = "ghcr.io/danxil/search-ui:release_v0.0.6"
+          image = "ghcr.io/danxil/search-ui:release_v0.0.7"
           name  = "search-ui"
           port {
             container_port = 1000
