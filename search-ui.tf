@@ -12,7 +12,7 @@ resource "kubernetes_deployment" "search-ui" {
     namespace = "search-ui"
     labels = {
       name = "search-ui"
-      test = "1"
+      name = "search-ui"
     }
   }
 
@@ -37,7 +37,7 @@ resource "kubernetes_deployment" "search-ui" {
           name = "ghcr-secret"
         }
         container {
-          image = "ghcr.io/danxil/search-ui:release_v0.0.7"
+          image = "ghcr.io/danxil/search-ui:release_v0.0.6"
           name  = "search-ui"
           port {
             container_port = 1000
