@@ -12,6 +12,7 @@ resource "kubernetes_deployment" "search-ui" {
     namespace = "search-ui"
     labels = {
       name = "search-ui"
+      test = "1"
     }
   }
 
