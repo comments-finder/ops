@@ -68,6 +68,7 @@ resource "kubernetes_service" "search-ui" {
   spec {
     selector = {
       name = "search-ui"
+      test = "test"
     }
     port {
       port        = 1000
@@ -84,7 +85,7 @@ resource "kubernetes_ingress_v1" "router" {
     annotations = {
       "alb.ingress.kubernetes.io/scheme" : "internet-facing"
       "kubernetes.io/ingress.class" : "alb"
-      "alb.ingress.kubernetes.io/target-type": "instance"
+      "alb.ingress.kubernetes.io/target-type" : "instance"
     }
   }
   spec {
@@ -94,10 +95,10 @@ resource "kubernetes_ingress_v1" "router" {
         path {
           backend {
             service {
-                name = kubernetes_service.search-ui.metadata.0.name
-                port {
-                    number = 1000
-                }
+              name = kubernetes_service.search-ui.metadata.0.name
+              port {
+                number = 1000
+              }
             }
           }
 

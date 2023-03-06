@@ -22,14 +22,14 @@ resource "aws_security_group" "eks" {
 
   tags = merge({
     Name = "EKS ${var.cluster_name}",
-    "kubernetes.io/cluster/${var.cluster_name}": "owned"
+    "kubernetes.io/cluster/${var.cluster_name}" : "owned"
   })
 }
 
 module "lb_role" {
-  source    = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+  source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
 
-  role_name = "${var.cluster_name}_eks_lb"
+  role_name                              = "${var.cluster_name}_eks_lb"
   attach_load_balancer_controller_policy = true
 
   oidc_providers = {
@@ -40,16 +40,47 @@ module "lb_role" {
   }
 }
 
+module "flux_role" {
+  source    = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+  role_name = "${var.cluster_name}_eks_flux"
+
+  role_policy_arns = { additional : "arn:aws:iam::aws:policy/AdministratorAccess" }
+
+  oidc_providers = {
+    main = {
+      provider_arn               = module.eks.oidc_provider_arn
+      namespace_service_accounts = ["flux-system:tf-runner"]
+    }
+  }
+}
+
+
+module "vpc_cni_irsa" {
+  source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+  version = "~> 5.0"
+
+  role_name             = "vpc_cni"
+  attach_vpc_cni_policy = true
+  vpc_cni_enable_ipv4   = true
+
+  oidc_providers = {
+    main = {
+      provider_arn               = module.eks.oidc_provider_arn
+      namespace_service_accounts = ["kube-system:aws-node"]
+    }
+  }
+}
+
 resource "kubernetes_service_account" "service-account" {
   metadata {
-    name = "aws-load-balancer-controller"
+    name      = "aws-load-balancer-controller"
     namespace = "kube-system"
     labels = {
-        "app.kubernetes.io/name"= "aws-load-balancer-controller"
-        "app.kubernetes.io/component"= "controller"
+      "app.kubernetes.io/name"      = "aws-load-balancer-controller"
+      "app.kubernetes.io/component" = "controller"
     }
     annotations = {
-      "eks.amazonaws.com/role-arn" = module.lb_role.iam_role_arn
+      "eks.amazonaws.com/role-arn"               = module.lb_role.iam_role_arn
       "eks.amazonaws.com/sts-regional-endpoints" = "true"
     }
   }
