@@ -1,6 +1,14 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
+
+variable "repository_ssh_url" {
+  description = "Repository"
+  type        = string
+  default     = "ssh://git@github.com/comments-finder/ui.git"
+}
+
+
 variable "cluster_name" {
   description = "EKS cluster name"
   type        = string
