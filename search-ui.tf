@@ -12,7 +12,6 @@ resource "kubernetes_deployment" "search-ui" {
     namespace = "search-ui"
     labels = {
       name = "search-ui"
-      name = "search-ui"
     }
   }
 
@@ -64,11 +63,13 @@ resource "kubernetes_service" "search-ui" {
   metadata {
     name      = "search-ui"
     namespace = "search-ui"
+    labels = {
+      name = "search-ui"
+    }
   }
   spec {
     selector = {
       name = "search-ui"
-      test = "test"
     }
     port {
       port        = 1000
