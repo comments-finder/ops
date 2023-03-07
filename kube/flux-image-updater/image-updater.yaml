@@ -22,4 +22,4 @@ spec:
     name: search-ui
   policy:
     semver:
-      range: '>=0.x.x'
+      range: '>=0.0.x'
