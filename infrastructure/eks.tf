@@ -11,11 +11,11 @@ module "eks" {
   cluster_name    = var.cluster_name
   cluster_version = "1.25"
 
-  vpc_id                         = module.vpc.vpc_id
-  subnet_ids                     = module.vpc.private_subnets
-  cluster_endpoint_public_access = true
-  manage_aws_auth_configmap      = true
-  # cluster_additional_security_group_ids = [aws_security_group.eks.id]
+  vpc_id                                = module.vpc.vpc_id
+  subnet_ids                            = module.vpc.private_subnets
+  cluster_endpoint_public_access        = true
+  manage_aws_auth_configmap             = true
+  cluster_additional_security_group_ids = [aws_security_group.eks.id]
 
   cluster_addons = {
     coredns = {
@@ -39,9 +39,9 @@ module "eks" {
   }
 
   eks_managed_node_group_defaults = {
-    ami_type                   = "AL2_x86_64"
+    ami_type                   = "AL2_ARM_64"
     iam_role_attach_cni_policy = true
-    # vpc_security_group_ids = [aws_security_group.eks.id]
+    vpc_security_group_ids     = [aws_security_group.eks.id]
   }
 
   eks_managed_node_groups = {
@@ -49,7 +49,7 @@ module "eks" {
       use_custom_launch_template = false
       name                       = "node-group-1"
 
-      instance_types = ["t3.micro"]
+      instance_types = ["t4g.small"]
 
       min_size     = 1
       max_size     = 3
@@ -60,7 +60,7 @@ module "eks" {
       use_custom_launch_template = false
       name                       = "node-group-2"
 
-      instance_types = ["t3.micro"]
+      instance_types = ["t4g.small"]
 
       min_size     = 1
       max_size     = 2
