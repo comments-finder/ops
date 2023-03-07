@@ -1,7 +1,7 @@
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
-  name: podinfo
+  name: search-ui
   namespace: flux-system
 spec:
   secretRef:
@@ -12,11 +12,14 @@ spec:
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
-  name: podinfo
+  name: search-ui
   namespace: flux-system
 spec:
+  filterTags:
+      pattern: '^release\_(?P<version>.*)'
+      extract: '$version'
   imageRepositoryRef:
-    name: podinfo
+    name: search-ui
   policy:
-    semver:
-      range: release_v0.x.x
+    alphabetical:
+      order: asc
