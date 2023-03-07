@@ -16,7 +16,7 @@ metadata:
   namespace: flux-system
 spec:
   filterTags:
-      pattern: '^release\_(?P<version>.*)'
+      pattern: '^release\_v(?P<version>.*)'
       extract: '$version'
   imageRepositoryRef:
     name: search-ui
