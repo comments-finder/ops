@@ -39,7 +39,7 @@ module "eks" {
   }
 
   eks_managed_node_group_defaults = {
-    ami_type                   = "AL2_ARM_64"
+    ami_type                   = "AL2_x86_64"
     iam_role_attach_cni_policy = true
     vpc_security_group_ids     = [aws_security_group.eks.id]
   }
@@ -49,7 +49,7 @@ module "eks" {
       use_custom_launch_template = false
       name                       = "node-group-1"
 
-      instance_types = ["t4g.small"]
+      instance_types = ["t3.small"]
 
       min_size     = 1
       max_size     = 3
@@ -60,7 +60,7 @@ module "eks" {
       use_custom_launch_template = false
       name                       = "node-group-2"
 
-      instance_types = ["t4g.small"]
+      instance_types = ["t3.small"]
 
       min_size     = 1
       max_size     = 2
