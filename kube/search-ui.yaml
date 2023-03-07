@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: search-ui
-          image: ghcr.io/comments-finder/ui:release_v0.0.8
+          image: ghcr.io/comments-finder/ui:release_v0.0.10
           ports:
             - containerPort: 1000
           resources:
