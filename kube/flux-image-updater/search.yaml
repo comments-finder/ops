@@ -1,7 +1,7 @@
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
-  name: search-ui
+  name: ui
   namespace: flux-system
 spec:
   secretRef:
@@ -12,14 +12,14 @@ spec:
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
-  name: search-ui
+  name: ui
   namespace: flux-system
 spec:
   filterTags:
       pattern: '^release\_v(?P<version>.*)'
       extract: '$version'
   imageRepositoryRef:
-    name: search-ui
+    name: ui
   policy:
     semver:
       range: '>=0.0.x'
@@ -27,7 +27,7 @@ spec:
 apiVersion: image.toolkit.fluxcd.io/v1beta1
 kind: ImageUpdateAutomation
 metadata:
-  name: search-ui
+  name: ui
   namespace: flux-system
 spec:
   interval: 10m0s

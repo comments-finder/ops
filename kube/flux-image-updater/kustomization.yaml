@@ -1,0 +1,10 @@
+resources:
+  - ui.yaml
+
+patches:
+- patch: |-
+    - op: replace
+      path: /metadata/name
+      value: search    
+  target:
+    name: "ui"
