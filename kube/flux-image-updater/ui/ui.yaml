@@ -7,7 +7,7 @@ spec:
   secretRef:
       name: ghcr-secret
   image: ghcr.io/comments-finder/ui
-  interval: 10m0s
+  interval: 1m0s
 ---
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
@@ -30,7 +30,7 @@ metadata:
   name: ui
   namespace: flux-system
 spec:
-  interval: 10m0s
+  interval: 1m0s
   sourceRef:
     kind: GitRepository
     name: flux-system
