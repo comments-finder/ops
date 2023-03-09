@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: search
-          image: ghcr.io/comments-finder/search:release_v0.0.11 # {"$imagepolicy": "flux-system:search"}
+          image: ghcr.io/comments-finder/search:release_v0.0.2 # {"$imagepolicy": "flux-system:search"}
           ports:
             - containerPort: 1000
           resources:
