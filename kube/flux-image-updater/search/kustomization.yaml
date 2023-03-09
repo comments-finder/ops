@@ -1,0 +1,17 @@
+resources:
+  - ../ui
+
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/image
+        value: ghcr.io/comments-finder/search
+    target:
+      name: ui
+      kind: ImageRepository
+  - patch: |-
+      - op: replace
+        path: /metadata/name
+        value: search
+    target:
+      name: ui
