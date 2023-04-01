@@ -11,7 +11,7 @@ metadata:
   labels:
     name: search
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       name: search
@@ -22,16 +22,21 @@ spec:
     spec:
       containers:
         - name: search
-          image: ghcr.io/comments-finder/search:release_v0.0.2 # {"$imagepolicy": "flux-system:search"}
+          env:
+            - name: ELASTICSEARCH_URI
+              value: http://elasticsearch.elasticsearch.svc.cluster.local:9200
+            - name: RABBITMQ_URI
+              value: amqp://rabbitmq.rabbitmq.svc.cluster.local:5672
+          image: ghcr.io/comments-finder/search:release_v0.0.19 # {"$imagepolicy": "flux-system:search"}
           ports:
-            - containerPort: 1000
+            - containerPort: 3333
           resources:
             limits:
               cpu: "0.1"
-              memory: 100Mi
+              memory: 5000Mi
             requests:
               cpu: "0.05"
-              memory: 50Mi
+              memory: 100Mi
       imagePullSecrets:
         - name: ghcr-secret
 ---
@@ -45,6 +50,6 @@ spec:
     name: search
   ports:
     - name: http
-      port: 1000
-      targetPort: 1000
-  type: NodePort
+      port: 3333
+      targetPort: 3333
+  type: ClusterIP

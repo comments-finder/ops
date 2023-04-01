@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: scrapper
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scrapper
+  namespace: scrapper
+  labels:
+    name: scrapper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: scrapper
+  template:
+    metadata:
+      labels:
+        name: scrapper
+    spec:
+      containers:
+        - name: scrapper
+          env:
+            - name: DB_URI
+              value: mongodb://scrapper:123456@mongodb.mongodb.svc.cluster.local:27017/scrapper
+            - name: RABBITMQ_URI
+              value: amqp://rabbitmq.rabbitmq.svc.cluster.local:5672
+            - name: ZENROWS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: zenrows-key
+                  key: ZENROWS_KEY
+          image: ghcr.io/comments-finder/scrapper:release_v0.0.4 # {"$imagepolicy": "flux-system:scrapper"}
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              cpu: "2"
+              memory: 4Gi
+            requests:
+              cpu: "1"
+              memory: 2Gi
+      imagePullSecrets:
+        - name: ghcr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scrapper
+  namespace: scrapper
+spec:
+  selector:
+    name: scrapper
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP

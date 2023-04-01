@@ -2,12 +2,6 @@
 # SPDX-License-Identifier: MPL-2.0
 
 
-variable "repository_ssh_url" {
-  description = "Repository"
-  type        = string
-  default     = "ssh://git@github.com/comments-finder/ui.git"
-}
-
 
 variable "cluster_name" {
   description = "EKS cluster name"
@@ -18,7 +12,7 @@ variable "cluster_name" {
 variable "region" {
   description = "AWS region"
   type        = string
-  default     = "us-west-1"
+  default     = "us-west-2"
 }
 
 variable "map_accounts" {

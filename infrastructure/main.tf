@@ -14,6 +14,9 @@ terraform {
 }
 
 provider "kubernetes" {
+  // Config based auth
+  # config_path = "~/.kube/config"
+
   host                   = module.eks.cluster_endpoint
   cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
   exec {
@@ -24,6 +27,9 @@ provider "kubernetes" {
 }
 provider "helm" {
   kubernetes {
+    // Config based auth
+    # config_path = "~/.kube/config"
+
     host                   = module.eks.cluster_endpoint
     cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
     exec {

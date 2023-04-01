@@ -1,0 +1,13 @@
+mongodb:
+  useStatefulSet: true
+  architecture: standalone
+  persistence:
+    size: 10Gi
+  global:
+    namespaceOverride: mongodb
+  service:
+    nameOverride: 'mongodb'
+  auth:
+    rootUser: root
+    rootPassword: root
+  initdbScriptsConfigMap: mongo-initdb

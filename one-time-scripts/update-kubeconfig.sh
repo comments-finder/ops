@@ -1,1 +1,1 @@
-aws eks update-kubeconfig --region us-west-1 --name search
+aws eks update-kubeconfig --region us-west-2 --name search

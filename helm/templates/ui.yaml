@@ -11,7 +11,7 @@ metadata:
   labels:
     name: ui
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       name: ui
@@ -22,16 +22,19 @@ spec:
     spec:
       containers:
         - name: ui
-          image: ghcr.io/comments-finder/ui:release_v0.0.11 # {"$imagepolicy": "flux-system:ui"}
+          image: ghcr.io/comments-finder/ui:release_v0.0.18 # {"$imagepolicy": "flux-system:ui"}
+          env:
+            - name: SEARCH_URL
+              value: http://search.search.svc.cluster.local:3333
           ports:
             - containerPort: 1000
           resources:
             limits:
               cpu: "0.1"
-              memory: 100Mi
+              memory: 500Mi
             requests:
               cpu: "0.05"
-              memory: 50Mi
+              memory: 100Mi
       imagePullSecrets:
         - name: ghcr-secret
 ---
@@ -58,6 +61,7 @@ metadata:
     alb.ingress.kubernetes.io/scheme: internet-facing
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/target-type: instance
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: '300'
 spec:
   rules:
     - http:

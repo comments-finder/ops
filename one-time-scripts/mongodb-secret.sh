@@ -1,0 +1,1 @@
+kubectl create secret generic mongodb-uri --from-literal=URI=mongodb://scrapper:123456@mongodb.mongodb.svc.cluster.local:27017/scrapper --namespace=scrapper
