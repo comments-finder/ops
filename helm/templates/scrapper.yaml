@@ -24,7 +24,10 @@ spec:
         - name: scrapper
           env:
             - name: DB_URI
-              value: mongodb://scrapper:123456@mongodb.mongodb.svc.cluster.local:27017/scrapper
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-uri
+                  key: MONGODB_URI
             - name: RABBITMQ_URI
               value: amqp://rabbitmq.rabbitmq.svc.cluster.local:5672
             - name: ZENROWS_KEY
